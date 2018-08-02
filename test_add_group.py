@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from selenium.webdriver.firefox.webdriver import WebDriver
-from selenium.webdriver.common.action_chains import ActionChains
-import time, unittest
+# from selenium.webdriver.common.action_chains import ActionChains
+import unittest
 
 def is_alert_present(wd):
     try:
@@ -24,8 +24,6 @@ class test_add_group(unittest.TestCase):
         wd.find_element_by_name("pass").click()
         wd.find_element_by_name("pass").send_keys("secret")
         wd.find_element_by_xpath("//form[@id='LoginForm']/input[3]").click()
-        wd.find_element_by_name("searchstring").click()
-        wd.find_element_by_name("searchstring").send_keys("\\9")
         wd.find_element_by_link_text("groups").click()
         wd.find_element_by_name("new").click()
         wd.find_element_by_name("group_name").click()
@@ -40,10 +38,6 @@ class test_add_group(unittest.TestCase):
         wd.find_element_by_name("submit").click()
         wd.find_element_by_link_text("group page").click()
         wd.find_element_by_link_text("Logout").click()
-        wd.find_element_by_name("pass").click()
-        wd.find_element_by_name("pass").send_keys("\\undefined")
-        wd.find_element_by_name("user").click()
-        wd.find_element_by_name("user").send_keys("\\undefined")
         self.assertTrue(success)
     
     def tearDown(self):
