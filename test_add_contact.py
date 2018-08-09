@@ -18,7 +18,6 @@ class test_add_contact(unittest.TestCase):
     
     def test_add_contact(self):
         wd = self.wd
-        self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
         self.add_new_contact(wd, Contact(middle_name="middleName", first_name="firstName", last_name="lastName", nick_name="nickName",
                              image="C:\\Users\\motoy\\Downloads\\Starinnyi-velosiped-s-bol1shim-perednim-kolesom.jpg",
@@ -27,7 +26,6 @@ class test_add_contact(unittest.TestCase):
                              email2="email2@email.com", email3="email3@email.com", homepage="homepage.com",
                              birth_date=23, birth_month=6, birth_year=1988, anniversary_year=1988, anniversary_day=5, anniversary_month=6,
                              group=5, address2="address2", home="home", notes="notes"))
-        self.return_to_home_page(wd)
         self.logout(wd)
 
     def logout(self, wd):
@@ -37,6 +35,7 @@ class test_add_contact(unittest.TestCase):
         wd.find_element_by_link_text("home").click()
 
     def add_new_contact(self, wd, contact):
+        self.return_to_home_page(wd)
         wd.find_element_by_link_text("add new").click()
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").send_keys(contact.first_name)
@@ -92,6 +91,7 @@ class test_add_contact(unittest.TestCase):
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
 
     def login(self, wd, username, password):
+        self.open_home_page(wd)
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").send_keys(username)
         wd.find_element_by_name("pass").click()
