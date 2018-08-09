@@ -55,7 +55,7 @@ class Application:
 
     def add_new_contact(self, contact):
         wd = self.wd
-        self.return_to_home_page()
+        self.return_to_home_page() # added for minimize risks. e.g. if user on other page
         wd.find_element_by_link_text("add new").click()
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").send_keys(contact.first_name)
@@ -109,6 +109,7 @@ class Application:
         wd.find_element_by_name("notes").click()
         wd.find_element_by_name("notes").send_keys(contact.notes)
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
+        self.return_to_home_page() # added for minimize risks. e.g. if web application will be changed and user on other page
 
     def destroy(self):
         self.wd.quit()

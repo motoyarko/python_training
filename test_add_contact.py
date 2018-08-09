@@ -20,5 +20,4 @@ def test_add_contact(app):
                              email2="email2@email.com", email3="email3@email.com", homepage="homepage.com",
                              birth_date=23, birth_month=6, birth_year=1988, anniversary_year=1988, anniversary_day=5, anniversary_month=6,
                              group=5, address2="address2", home="home", notes="notes"))
-    app.return_to_home_page()
     app.logout()
