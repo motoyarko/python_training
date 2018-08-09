@@ -17,13 +17,13 @@ class test_add_group(unittest.TestCase):
         self.wd = WebDriver(capabilities={"marionette": False})
         self.wd.implicitly_wait(60)
     
-    def add_group(self):
+    def test_add_group(self):
         wd = self.wd
         self.login(wd, username="admin", password="secret")
         self.create_new_group(wd, Group(name="test1", header="header", footer="footer"))
         self.logout(wd)
 
-    def add_empty_group(self):
+    def test_add_empty_group(self):
         wd = self.wd
         self.login(wd, username="admin", password="secret")
         self.create_new_group(wd, Group(name="", header="", footer=""))
