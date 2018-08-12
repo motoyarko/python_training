@@ -65,3 +65,11 @@ class ContactHelper:
         wd.find_element_by_name("notes").send_keys(contact.notes)
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
         self.return_to_home_page() # added for minimize risks. e.g. if web application will be changed and user on other page
+
+    def delete_first_contact(self):
+        wd = self.app.wd
+        self.return_to_home_page()
+        wd.find_element_by_name("selected[]").click()
+        wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
+        wd.switch_to_alert().accept()
+        self.return_to_home_page()
