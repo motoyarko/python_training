@@ -2,7 +2,7 @@
 from model.contact import Contact
 
 
-def test_delete_first_contact(app):
+def test_update_first_contact(app):
     app.session.login(username="admin", password="secret")
     app.contact.update_first_contact(Contact(middle_name="middleName_Updated", first_name="firstName_Updated", last_name="lastName_Updated", nick_name="nickName_Updated",
                        image="C:\\Users\\motoy\\Downloads\\Starinnyi-velosiped-s-bol1shim-perednim-kolesom.jpg",
