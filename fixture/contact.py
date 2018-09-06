@@ -41,9 +41,9 @@ class ContactHelper:
 
         self.change_field_value("nickname", contact.nick_name)
 
-#        self.change_field_value("photo", contact.image)  need update "change_field_value" method
-        if contact.image is not None:
-            wd.find_element_by_name("photo").send_keys(contact.image)
+        self.change_field_value("photo", contact.image)
+#        if contact.image is not None:
+#            wd.find_element_by_name("photo").send_keys(contact.image)
 
         self.change_field_value("title", contact.title)
 
@@ -67,31 +67,35 @@ class ContactHelper:
 
         self.change_field_value("homepage", contact.homepage)
 
-        if contact.birth_date is not None:
-            if not wd.find_element_by_xpath(
-                    "//div[@id='content']/form/select[1]//option[" + str(contact.birth_date + 2) + "]").is_selected():
-                wd.find_element_by_xpath(
-                    "//div[@id='content']/form/select[1]//option[" + str(contact.birth_date + 2) + "]").click()
+        self.change_field_value("birth_date", contact.birth_date)
+#        if contact.birth_date is not None:
+#            if not wd.find_element_by_xpath(
+#                    "//div[@id='content']/form/select[1]//option[" + str(contact.birth_date + 2) + "]").is_selected():
+#                wd.find_element_by_xpath(
+#                    "//div[@id='content']/form/select[1]//option[" + str(contact.birth_date + 2) + "]").click()
 
-        if contact.birth_month is not None:
-            if not wd.find_element_by_xpath(
-                    "//div[@id='content']/form/select[2]//option[" + str(contact.birth_month + 1) + "]").is_selected():
-                wd.find_element_by_xpath(
-                    "//div[@id='content']/form/select[2]//option[" + str(contact.birth_month + 1) + "]").click()
+        self.change_field_value("birth_month", contact.birth_month)
+#        if contact.birth_month is not None:
+#            if not wd.find_element_by_xpath(
+#                    "//div[@id='content']/form/select[2]//option[" + str(contact.birth_month + 1) + "]").is_selected():
+#                wd.find_element_by_xpath(
+#                    "//div[@id='content']/form/select[2]//option[" + str(contact.birth_month + 1) + "]").click()
 
         self.change_field_value("byear", contact.birth_year)
 
-        if contact.anniversary_day is not None:
-            if not wd.find_element_by_xpath(
-                    "//div[@id='content']/form/select[3]//option[" + str(contact.anniversary_day + 2) + "]").is_selected():
-                wd.find_element_by_xpath(
-                    "//div[@id='content']/form/select[3]//option[" + str(contact.anniversary_day + 2) + "]").click()
+        self.change_field_value("anniversary_day", contact.anniversary_day)
+#        if contact.anniversary_day is not None:
+#            if not wd.find_element_by_xpath(
+#                    "//div[@id='content']/form/select[3]//option[" + str(contact.anniversary_day + 2) + "]").is_selected():
+#                wd.find_element_by_xpath(
+#                    "//div[@id='content']/form/select[3]//option[" + str(contact.anniversary_day + 2) + "]").click()
 
-        if contact.anniversary_month is not None:
-            if not wd.find_element_by_xpath(
-                    "//div[@id='content']/form/select[4]//option[" + str(contact.anniversary_month + 1) + "]").is_selected():
-                wd.find_element_by_xpath(
-                    "//div[@id='content']/form/select[4]//option[" + str(contact.anniversary_month + 1) + "]").click()
+        self.change_field_value("anniversary_month", contact.anniversary_month)
+#        if contact.anniversary_month is not None:
+#            if not wd.find_element_by_xpath(
+#                    "//div[@id='content']/form/select[4]//option[" + str(contact.anniversary_month + 1) + "]").is_selected():
+#                wd.find_element_by_xpath(
+#                    "//div[@id='content']/form/select[4]//option[" + str(contact.anniversary_month + 1) + "]").click()
 
         self.change_field_value("ayear", contact.anniversary_year)
 
@@ -103,6 +107,55 @@ class ContactHelper:
 
     def change_field_value(self, field_name, text):
         wd = self.app.wd
+        if field_name is "photo":
+            if text is not None:
+                wd.find_element_by_name(field_name).send_keys(text)
+                return
+            else:
+                return
+
+        if field_name is "birth_date":
+            if text is not None:
+                if not wd.find_element_by_xpath(
+                        "//div[@id='content']/form/select[1]//option[" + str(text + 2) + "]").is_selected():
+                    wd.find_element_by_xpath(
+                        "//div[@id='content']/form/select[1]//option[" + str(text + 2) + "]").click()
+
+                return
+            else:
+                return
+
+        if field_name is "birth_month":
+            if text is not None:
+                if not wd.find_element_by_xpath(
+                        "//div[@id='content']/form/select[2]//option[" + str(text + 1) + "]").is_selected():
+                    wd.find_element_by_xpath(
+                        "//div[@id='content']/form/select[2]//option[" + str(text + 1) + "]").click()
+
+                return
+            else:
+                return
+
+        if field_name is "anniversary_day":
+            if text is not None:
+                if not wd.find_element_by_xpath(
+                        "//div[@id='content']/form/select[3]//option[" + str(text + 2) + "]").is_selected():
+                    wd.find_element_by_xpath(
+                        "//div[@id='content']/form/select[3]//option[" + str(text + 2) + "]").click()
+                return
+            else:
+                return
+
+        if field_name is "anniversary_month":
+            if text is not None:
+                if not wd.find_element_by_xpath(
+                        "//div[@id='content']/form/select[4]//option[" + str(text + 1) + "]").is_selected():
+                    wd.find_element_by_xpath(
+                        "//div[@id='content']/form/select[4]//option[" + str(text + 1) + "]").click()
+                return
+            else:
+                return
+# previous if-else constructions are needed because these fields are using xpath or custom update logic
         if text is not None:
             wd.find_element_by_name(field_name).click()
             wd.find_element_by_name(field_name).clear()
