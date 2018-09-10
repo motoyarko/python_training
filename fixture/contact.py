@@ -45,9 +45,9 @@ class ContactHelper:
 #        if contact.image is not None:
 #            wd.find_element_by_name("photo").send_keys(contact.image)
 
-        self.change_field_value("title", contact.title)
-
         self.change_field_value("company", contact.company)
+
+        self.change_field_value("title", contact.title)
 
         self.change_field_value("address", contact.address)
 
