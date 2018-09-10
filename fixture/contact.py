@@ -164,3 +164,8 @@ class ContactHelper:
     def select_first_contact(self):
         wd = self.app.wd
         wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
+
+    def count(self):
+        wd = self.app.wd
+        self.return_to_home_page()
+        return int(wd.find_element_by_id("search_count").text)

@@ -1,8 +1,9 @@
-
 from model.contact import Contact
 
 
 def test_modify_first_contact(app):
+    if app.contact.count() == 0:
+        app.contact.create(Contact(first_name="createdForUpdateContact"))
     app.contact.modify_first_contact(Contact(middle_name="middleName_Updated", first_name="firstName_Updated", last_name="lastName_Updated", nick_name="nickName_Updated",
                                              image="C:\\Users\\motoy\\Downloads\\Starinnyi-velosiped-s-bol1shim-perednim-kolesom.jpg",
                                              title="title_Updated", company="company_Updated", address="address_Updated", home_telephone="homeTelephone_Updated", mobile_telephone="mobileTelephone_Updated",
@@ -13,12 +14,18 @@ def test_modify_first_contact(app):
 
 
 def test_modify_contact_middle_name(app):
+    if app.contact.count() == 0:
+        app.contact.create(Contact(middle_name="createdForUpdateContact"))
     app.contact.modify_first_contact(Contact(middle_name="middleName_Updated"))
 
 
 def test_modify_contact_first_name(app):
+    if app.contact.count() == 0:
+        app.contact.create(Contact(last_name="createdForUpdateContact"))
     app.contact.modify_first_contact(Contact(first_name="firstName_Updated"))
 
 
 def test_modify_contact_anniversary_day(app):
+    if app.contact.count() == 0:
+        app.contact.create(Contact(nick_name="createdForUpdateContact"))
     app.contact.modify_first_contact(Contact(anniversary_day=27))
