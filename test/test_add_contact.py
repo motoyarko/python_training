@@ -13,7 +13,7 @@ def test_add_contact(app):
                        birth_date=24, birth_month=7, birth_year=1988, anniversary_year=1989, anniversary_day=2, anniversary_month=3,
                        group=5, address2="address2", home="home", notes="notes")
     app.contact.create(contact)
+    assert len(old_contacts) + 1 == app.contact.count()
     new_contacts = app.contact.get_contact_list()
-    assert len(old_contacts) + 1 == len(new_contacts)
     old_contacts.append(contact)
     assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)

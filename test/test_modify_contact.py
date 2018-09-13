@@ -14,34 +14,46 @@ def test_modify_first_contact(app):
                                              group=4, address2="address2_Updated", home="home_Updated", notes="notes_Updated")
     contact.id = old_contacts[0].id
     app.contact.modify_first_contact(contact)
+    assert len(old_contacts) == app.contact.count()
     new_contacts = app.contact.get_contact_list()
-    assert len(old_contacts) == len(new_contacts)
     old_contacts[0] = contact
     assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
 
 
 def test_modify_contact_middle_name(app):
     if app.contact.count() == 0:
-        app.contact.create(Contact(middle_name="createdForUpdateContact"))
+        app.contact.create(Contact(middle_name="middleName_Updated"))
     old_contacts = app.contact.get_contact_list()
-    app.contact.modify_first_contact(Contact(middle_name="middleName_Updated"))
+    contact = Contact(middle_name="middleName_Updated")
+    contact.id = old_contacts[0].id
+    app.contact.modify_first_contact(contact)
+    assert len(old_contacts) == app.contact.count()
     new_contacts = app.contact.get_contact_list()
-    assert len(old_contacts) == len(new_contacts)
+    old_contacts[0] = contact
+    assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
 
 
 def test_modify_contact_first_name(app):
     if app.contact.count() == 0:
-        app.contact.create(Contact(last_name="createdForUpdateContact"))
+        app.contact.create(Contact(first_name="createdForUpdateContact"))
     old_contacts = app.contact.get_contact_list()
-    app.contact.modify_first_contact(Contact(first_name="firstName_Updated"))
+    contact = Contact(first_name="firstName_Updated")
+    contact.id = old_contacts[0].id
+    app.contact.modify_first_contact(contact)
+    assert len(old_contacts) == app.contact.count()
     new_contacts = app.contact.get_contact_list()
-    assert len(old_contacts) == len(new_contacts)
+    old_contacts[0] = contact
+    assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
 
 
 def test_modify_contact_anniversary_day(app):
     if app.contact.count() == 0:
-        app.contact.create(Contact(nick_name="createdForUpdateContact"))
+        app.contact.create(Contact(anniversary_day=6))
     old_contacts = app.contact.get_contact_list()
-    app.contact.modify_first_contact(Contact(anniversary_day=27))
+    contact = Contact(anniversary_day=6)
+    contact.id = old_contacts[0].id
+    app.contact.modify_first_contact(contact)
+    assert len(old_contacts) == app.contact.count()
     new_contacts = app.contact.get_contact_list()
-    assert len(old_contacts) == len(new_contacts)
+    old_contacts[0] = contact
+    assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
