@@ -11,8 +11,8 @@ class Group:
     def __repr__(self):
         return "%s:%s" % (self.id, self.name)
 
-    def __eq__(self, other):
-        return (self.id is None or other.id is None or self.id == other.id) and self.name == other.name
+    def __eq__(self, other): #The None check for name is needed for cases when we don't update name fo group
+        return (self.id is None or other.id is None or self.id == other.id) and (self.name == other.name or self.name is None or other.name is None)
 
     def id_or_max(self):
         if self.id:

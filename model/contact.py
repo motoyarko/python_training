@@ -37,8 +37,8 @@ class Contact:
     def __repr__(self):
         return "%s:%s:%s" % (self.id, self.first_name, self.last_name)
 
-    def __eq__(self, other):
-        return (self.id is None or other.id is None or self.id == other.id) and self.first_name == other.first_name and self.last_name == other.last_name
+    def __eq__(self, other): #The None check for name is needed for cases when we don't update first_name, last_name for contact
+        return (self.id is None or other.id is None or self.id == other.id) and (self.first_name == other.first_name or self.first_name is None or other.first_name is None) and (self.last_name == other.last_name or self.last_name is None or other.last_name is None)
 
     def id_or_max(self):
         if self.id:
