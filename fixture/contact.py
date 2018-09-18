@@ -23,7 +23,16 @@ class ContactHelper:
     def delete_first_contact(self):
         wd = self.app.wd
         self.return_to_home_page()
-        wd.find_element_by_name("selected[]").click()
+        self.select_contact_by_index(0)
+        wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
+        wd.switch_to_alert().accept()
+        self.return_to_home_page()
+        self.contact_cache = None
+
+    def delete_contact_by_index(self, index):
+        wd = self.app.wd
+        self.return_to_home_page()
+        self.select_contact_by_index(index)
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         wd.switch_to_alert().accept()
         self.return_to_home_page()
@@ -33,6 +42,15 @@ class ContactHelper:
         wd = self.app.wd
         self.return_to_home_page() # added for minimize risks. e.g. if user on other page
         self.select_first_contact()
+        self.fill_contact_form(new_contact_data)
+        wd.find_element_by_name("update").click()
+        self.return_to_home_page()
+        self.contact_cache = None
+
+    def modify_contact_by_index(self, index, new_contact_data):
+        wd = self.app.wd
+        self.return_to_home_page() # added for minimize risks. e.g. if user on other page
+        self.select_contact_by_index_for_edit(index)
         self.fill_contact_form(new_contact_data)
         wd.find_element_by_name("update").click()
         self.return_to_home_page()
@@ -170,6 +188,17 @@ class ContactHelper:
     def select_first_contact(self):
         wd = self.app.wd
         wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
+
+    def select_contact_by_index_for_edit(self, index):
+        wd = self.app.wd
+        self.select_contact_by_index(index)  # click on checkbox
+        row = wd.find_elements_by_name("entry")[index]  # select needed row
+        cell = row.find_elements_by_tag_name("td")[7]  # select column 8
+        cell.find_element_by_tag_name("a").click()  # click on Pencil button
+
+    def select_contact_by_index(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_name("selected[]")[index].click()
 
     def count(self):
         wd = self.app.wd
