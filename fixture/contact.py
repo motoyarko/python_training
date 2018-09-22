@@ -1,4 +1,5 @@
 from model.contact import Contact
+import re
 
 
 class ContactHelper:
@@ -50,7 +51,7 @@ class ContactHelper:
     def modify_contact_by_index(self, index, new_contact_data):
         wd = self.app.wd
         self.return_to_home_page() # added for minimize risks. e.g. if user on other page
-        self.select_contact_by_index_for_edit(index)
+        self.open_contact_to_edit_by_index(index)
         self.fill_contact_form(new_contact_data)
         wd.find_element_by_name("update").click()
         self.return_to_home_page()
@@ -189,7 +190,7 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
 
-    def select_contact_by_index_for_edit(self, index):
+    def open_contact_to_edit_by_index(self, index):
         wd = self.app.wd
         self.select_contact_by_index(index)  # click on checkbox
         row = wd.find_elements_by_name("entry")[index]  # select needed row
@@ -207,7 +208,7 @@ class ContactHelper:
 
     contact_cache = None
 
-    def get_contact_list(self):
+    def get_contact_list(self):  # /!\this method works not correctly if contact doesn't have some fields on home page/!\
         if self.contact_cache is None:
             wd = self.app.wd
             self.return_to_home_page()
@@ -217,5 +218,44 @@ class ContactHelper:
                 last_name = td_tags[1].text
                 first_name = td_tags[2].text
                 id = element.find_element_by_name("selected[]").get_attribute("value")
-                self.contact_cache.append(Contact(first_name=first_name, last_name=last_name, id=id))
+                all_phones = td_tags[5].text
+                all_emails = td_tags[4].text
+                self.contact_cache.append(Contact(first_name=first_name, last_name=last_name, id=id,
+                                                  all_phones_from_home_page=all_phones, all_emails_from_home_page = all_emails))
         return list(self.contact_cache)
+
+    def get_contact_info_from_edit_page(self, index):
+        wd = self.app.wd
+        self.app.open_home_page()  # it needs for case if system isn't on the home page
+        self.open_contact_to_edit_by_index(index)
+        first_name = wd.find_element_by_name("firstname").get_attribute("value")
+        last_name = wd.find_element_by_name("lastname").get_attribute("value")
+        id = wd.find_element_by_name("id").get_attribute("value")
+        home_telephone = wd.find_element_by_name("home").get_attribute("value")
+        mobile_telephone = wd.find_element_by_name("mobile").get_attribute("value")
+        work_telephone = wd.find_element_by_name("work").get_attribute("value")
+        home = wd.find_element_by_name("phone2").get_attribute("value")
+        email = wd.find_element_by_name("email").get_attribute("value")
+        email2 = wd.find_element_by_name("email2").get_attribute("value")
+        email3 = wd.find_element_by_name("email3").get_attribute("value")
+        return Contact(first_name=first_name, last_name=last_name, home_telephone=home_telephone,
+                       mobile_telephone=mobile_telephone, work_telephone=work_telephone, home=home,
+                       id=id, email=email, email2=email2, email3=email3)
+
+    def get_contact_from_view_page(self, index):
+        wd = self.app.wd
+        self.open_contact_view_page_by_index(index)
+        text = wd.find_element_by_id("content").text
+        home_telephone = re.search("H: (.*)", text).group(1)
+        mobile_telephone = re.search("M: (.*)", text).group(1)
+        work_telephone = re.search("W: (.*)", text).group(1)
+        home = re.search("P: (.*)", text).group(1)
+        return Contact(home_telephone=home_telephone, mobile_telephone=mobile_telephone, work_telephone=work_telephone,
+                       home=home)
+
+    def open_contact_view_page_by_index(self, index):
+        wd = self.app.wd
+        self.app.open_home_page()
+        row = wd.find_elements_by_name("entry")[index]
+        cell = row.find_elements_by_tag_name("td")[6]
+        cell.find_element_by_tag_name("a").click()
