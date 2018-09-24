@@ -215,13 +215,15 @@ class ContactHelper:
             self.contact_cache = []
             for element in wd.find_elements_by_name("entry"):
                 td_tags = element.find_elements_by_tag_name("td")
-                last_name = td_tags[1].text
-                first_name = td_tags[2].text
+                last_name = clear(td_tags[1].text)
+                first_name = clear(td_tags[2].text)
                 id = element.find_element_by_name("selected[]").get_attribute("value")
                 all_phones = td_tags[5].text
                 all_emails = td_tags[4].text
+                address = clear(td_tags[3].text)
                 self.contact_cache.append(Contact(first_name=first_name, last_name=last_name, id=id,
-                                                  all_phones_from_home_page=all_phones, all_emails_from_home_page = all_emails))
+                                                  all_phones_from_home_page=all_phones,
+                                                  all_emails_from_home_page=all_emails, address=address))
         return list(self.contact_cache)
 
     def get_contact_info_from_edit_page(self, index):
@@ -259,3 +261,11 @@ class ContactHelper:
         row = wd.find_elements_by_name("entry")[index]
         cell = row.find_elements_by_tag_name("td")[6]
         cell.find_element_by_tag_name("a").click()
+
+
+# it's needed for cases when fields on home page contain " "
+# but doesn't work for cases if e.g. first name contains double spaces, coz every new line on home page trims spaces
+# at the beginning of each string.
+# works in most cases but needs refactoring in the future
+def clear(s):
+    return s.strip().rstrip('\n ').rstrip('\n\r')
