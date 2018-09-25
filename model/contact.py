@@ -38,7 +38,7 @@ class Contact:
         self.all_emails_from_home_page = all_emails_from_home_page
 
     def __repr__(self):
-        return "%s:%s:%s" % (self.id, self.first_name, self.last_name)
+        return "%s:%s:%s:%s" % (self.id, self.first_name, self.last_name, self.address)
 
     def __eq__(self, other): #The None check for name is needed for cases when we don't update first_name, last_name for contact
         return (self.id is None or other.id is None or self.id == other.id) and \

@@ -5,7 +5,7 @@ from model.contact import Contact
 
 def test_random_contact_data_on_home_page_and_on_edit_page(app):  # test for exercise 14
     if app.contact.count() == 0:
-        app.contact.create(Contact(last_name="for random edit test"))
+        app.contact.create(Contact(last_name="for random edit test1"))
     contacts_list = app.contact.get_contact_list()  #
     index = randrange(len(contacts_list))
     contact_from_home_page = contacts_list[index]
@@ -18,6 +18,8 @@ def test_random_contact_data_on_home_page_and_on_edit_page(app):  # test for exe
 
 
 def test_phones_on_contact_view_page(app):  # test from lesson
+    if app.contact.count() == 0:
+        app.contact.create(Contact(last_name="test_phones_on_contact_view_page"))
     contact_from_view_page = app.contact.get_contact_from_view_page(0)
     contact_from_edit_page = app.contact.get_contact_info_from_edit_page(0)
     assert contact_from_view_page.home_telephone == contact_from_edit_page.home_telephone
