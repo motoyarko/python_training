@@ -2,7 +2,6 @@ import pytest
 from fixture.application import Application
 import json
 import os.path
-import traceback
 
 fixture = None
 target = None
@@ -37,6 +36,4 @@ def stop(request):
 def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="firefox")
     parser.addoption("--target", action="store", default="target.json")
-#    parser.addoption("--baseUrl", action="store", default="http://localhost/addressbook/")
-#    parser.addoption("--username", action="store", default="admin")
-#    parser.addoption("--password", action="store", default="secret")
+
