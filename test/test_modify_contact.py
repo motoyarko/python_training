@@ -1,5 +1,22 @@
 from model.contact import Contact
 from random import randrange
+import random
+
+
+def test_modify_some_contact_db(app, db, check_ui):
+    if app.contact.count() == 0:
+        app.contact.create(Contact(last_name="for random edit test"))
+    contact = Contact(last_name="after random edit test_DB")
+    old_contacts = db.get_contact_list()
+    random_contact = random.choice(old_contacts)
+    old_contacts.remove(random_contact)
+    contact.id = random_contact.id
+    app.contact.modify_contact_by_id(random_contact.id, contact)
+    new_contacts = db.get_contact_list()
+    old_contacts.append(contact)
+    assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
+    if check_ui:
+        assert sorted(old_contacts, key=Contact.id_or_max) == sorted(app.contact.get_contact_list(), key=Contact.id_or_max)
 
 
 def test_modify_first_contact(app):

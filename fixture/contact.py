@@ -221,7 +221,7 @@ class ContactHelper:
                 all_phones = td_tags[5].text
                 all_emails = td_tags[4].text
                 address = clear(td_tags[3].text)
-                self.contact_cache.append(Contact(first_name=first_name, last_name=last_name, id=id,
+                self.contact_cache.append(Contact(first_name=first_name, last_name=last_name, id=str(id),
                                                   all_phones_from_home_page=all_phones,
                                                   all_emails_from_home_page=all_emails, address=address))
         return list(self.contact_cache)
@@ -263,10 +263,42 @@ class ContactHelper:
         cell = row.find_elements_by_tag_name("td")[6]
         cell.find_element_by_tag_name("a").click()
 
+    def delete_contact_by_id(self, id):
+        wd = self.app.wd
+        self.return_to_home_page()
+        self.select_contact_by_id(id)
+        wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
+        wd.switch_to_alert().accept()
+        self.return_to_home_page()
+        self.contact_cache = None
+
+    def select_contact_by_id(self, id):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("input[value='%s']" % id).click()
+
+    def modify_contact_by_id(self, id, new_contact_data):
+        wd = self.app.wd
+        self.return_to_home_page() # added for minimize risks. e.g. if user on other page
+        self.open_contact_to_edit_by_id(id)
+        self.fill_contact_form(new_contact_data)
+        wd.find_element_by_name("update").click()
+        self.return_to_home_page()
+        self.contact_cache = None
+
+    def open_contact_to_edit_by_id(self, id):
+        wd = self.app.wd
+        self.select_contact_by_id(id)  # click on checkbox
+        wd.find_element_by_xpath("//a[contains(@href, %s) and contains(@href, 'edit.php?id=')]" % id).click()
+
+    def get_index_of_selected_contact(self):
+        pass#wd.find_element_by_name("entry").
 
 # it's needed for cases when fields on home page contain " "
 # but doesn't work for cases if e.g. first name contains double spaces, coz every new line on home page trims spaces
 # at the beginning of each string.
 # works in most cases but needs refactoring in the future
+
+
 def clear(s):
     return s.strip().rstrip('\n ').rstrip('\n\r')
+
